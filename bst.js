@@ -112,9 +112,83 @@ class BinarySearchTree {
     return this.right._findMax();
   }
 }
+class NonBinarySearchTree {
+  constructor(key = null, value = null, parent = null) {
+    this.key = key;
+    this.value = value;
+    this.parent = parent;
+    this.left = null;
+    this.right = null;
+  }
+  insert(key, value) {
+    if (this.key === null) {
+      this.key = key;
+      this.value = value;
+      //go left
+    } else if (key < this.key) {
+      if (this.right === null) {
+        this.right = new NonBinarySearchTree(key, value, this);
+      } else {
+        this.right.insert(key, value);
+      }
+    } else {
+      if (this.left === null) {
+        this.left = new NonBinarySearchTree(key, value, this);
+      } else {
+        this.left.insert(key, value);
+      }
+    }
+  }
+}
+// bst = 3; 
+function height(bst) {
 
+  if (!bst) {
+    return 0;
+  }
+  if (bst.left !== null) {
+    console.log('bst.left', bst.left.value);
+  }
+  if (bst.right !== null) {
+    console.log('bst.right', bst.right.value);
+  }
+
+  let left = height(bst.left);
+  let right = height(bst.right);
+  console.log('left', left);
+  console.log('right', right);
+
+  return Math.max(left, right) + 1;
+}
+
+function isBst(bst) {
+  if (!bst) {
+    return false;
+  }
+
+  if (!bst.left && !bst.right) {
+    return true;
+  }
+
+  if (bst.left) {
+    if (bst.key > bst.left.key) {
+      return isBst(bst.left);
+    } else {
+      return false;
+    }
+  }
+  if (bst.right) {
+    if (bst.key < bst.right.key) {
+      return isBst(bst.right);
+    } else {
+      return false;
+    }
+  }
+
+}
 function main() {
   const BST = new BinarySearchTree();
+  const BST2 = new NonBinarySearchTree();
   BST.insert(3, 3);
   BST.insert(1, 1);
   BST.insert(4, 4);
@@ -123,8 +197,22 @@ function main() {
   BST.insert(2, 2);
   BST.insert(5, 5);
   BST.insert(7, 7);
-  BST.remove(3);
-  console.log(BST);
+  BST.insert(8, 8);
+  // BST.insert(11, 11);
+  // BST.insert(13, 13);
+  //BST.remove(3);
+  // console.log(BST);
+  // console.log(height(BST));
+  BST2.insert(3, 3);
+  BST2.insert(1, 1);
+  BST2.insert(4, 4);
+  BST2.insert(6, 6);
+  BST2.insert(9, 9);
+  BST2.insert(2, 2);
+  BST2.insert(5, 5);
+  BST2.insert(7, 7);
+  BST2.insert(8, 8);
+  // console.log(isBst(BST2));
 }
 
 main();
