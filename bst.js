@@ -146,17 +146,17 @@ function height(bst) {
   if (!bst) {
     return 0;
   }
-  if (bst.left !== null) {
-    console.log('bst.left', bst.left.value);
-  }
-  if (bst.right !== null) {
-    console.log('bst.right', bst.right.value);
-  }
+  // if (bst.left !== null) {
+  //   console.log('bst.left', bst.left.value);
+  // }
+  // if (bst.right !== null) {
+  //   console.log('bst.right', bst.right.value);
+  // }
 
   let left = height(bst.left);
   let right = height(bst.right);
-  console.log('left', left);
-  console.log('right', right);
+  // console.log('left', left);
+  // console.log('right', right);
 
   return Math.max(left, right) + 1;
 }
@@ -186,23 +186,80 @@ function isBst(bst) {
   }
 
 }
+
+// Third largest node
+// Write an algorithm to find the third largest node in a binary search tree
+function thirdLargest(bst) {
+  let max = bst._findMax();
+
+
+  // console.log(bst.right);
+  if (bst.right) {
+    if (bst.right.right || bst.right.left) {
+      if (max.left) {
+        return max.parent.value;
+      }
+      if (max.parent.left) {
+        if (max.parent.left.right) {
+          return max.parent.left.right.value;
+        } else return max.parent.left.value;
+      } else {
+        return max.parent.parent.value;
+      }
+    }
+    if (!bst.right.right && !bst.right.left) {
+      if (bst.left) {
+        if (bst.left.right) {
+          return bst.left.right.value;
+        }
+        return bst.left.value;
+      }
+    }
+  }
+  if (bst.left.right) {
+    return bst.left.value;
+  } else if (bst.left.left.right) {
+    return bst.left.left.right.value;
+  }
+}
+function balanced(bst) {
+  let left = height(bst.left);
+  let right = height(bst.right);
+  console.log(left);
+  console.log(right);
+  // return false if height difference is greater than 1
+  if (Math.abs(left - right) > 1) {
+    return false;
+  }
+  return true;
+}
+
 function main() {
   const BST = new BinarySearchTree();
   const BST2 = new NonBinarySearchTree();
-  BST.insert(3, 3);
-  BST.insert(1, 1);
-  BST.insert(4, 4);
-  BST.insert(6, 6);
-  BST.insert(9, 9);
-  BST.insert(2, 2);
-  BST.insert(5, 5);
-  BST.insert(7, 7);
   BST.insert(8, 8);
+  BST.insert(7, 7);
+  BST.insert(5, 5);
+  BST.insert(4, 4);
+  BST.insert(10, 10);
+  BST.insert(9, 9);
+  BST.insert(6, 6);
+  BST.insert(2, 2);
+  BST.insert(11, 11);
+  BST.insert(13, 13);
+
+
+  console.log(balanced(BST));
+  // BST.insert(5, 5);
+  // BST.insert(7, 7);
+  // BST.insert(8, 8);
   // BST.insert(11, 11);
   // BST.insert(13, 13);
   //BST.remove(3);
   // console.log(BST);
   // console.log(height(BST));
+  // console.log(thirdLargest(BST));
+
   BST2.insert(3, 3);
   BST2.insert(1, 1);
   BST2.insert(4, 4);
